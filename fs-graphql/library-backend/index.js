@@ -104,11 +104,13 @@ const typeDefs = /* GraphQL */ `
     published: Int!
     author: String!
     genres: [String!]!
+    id: ID!
   }
   type Author {
     name: String!
     born: Int
     bookCount: Int!
+    id: ID!
   }
   type Query {
     bookCount: Int!
@@ -141,9 +143,9 @@ const resolvers = {
   Mutation: {
     addBook: (root, args) => {
       if (!books.find((book) => book.author === args.author)) {
-        authors = authors.concat({ name: args.author, id: uuid })
+        authors = authors.concat({ name: args.author, id: uuid() })
       }
-      const book = { ...args, id: uuid }
+      const book = { ...args, id: uuid() }
       books = books.concat(book)
       return book
     },
