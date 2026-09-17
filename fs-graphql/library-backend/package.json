@@ -12,7 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^5.5.0",
-    "graphql": "^16.13.2"
+    "dotenv": "^17.4.2",
+    "graphql": "^16.13.2",
+    "mongoose": "^9.10.1"
   },
   "allowScripts": {
     "@apollo/protobufjs@1.2.7": true
