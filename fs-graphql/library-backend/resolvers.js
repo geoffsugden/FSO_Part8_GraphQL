@@ -1,8 +1,8 @@
 const { GraphQLError } = require('graphql')
 const jwt = require('jsonwebtoken')
-const Book = require('./models/Book')
-const Author = require('./models/Author')
-const User = require('./models/User')
+const Book = require('./models/book')
+const Author = require('./models/author')
+const User = require('./models/user')
 const { BOOK_TITLE_MIN_LENGTH, AUTHOR_NAME_MIN_LENGTH } = require('./constants')
 
 /*
@@ -147,6 +147,15 @@ const resolvers = {
       return {
         value: `Bearer ${jwt.sign(userForToken, process.env.JWT_SECRET)}`,
       }
+    },
+    _resetDatabase: async () => {
+      if (process.env.NODE_ENV !== 'test') {
+        throw new GraphQLError('_resetDatabase is only available in test mode')
+      }
+      await Author.deleteMany({})
+      await Book.deleteMany({})
+      await User.deleteMany({})
+      return true
     },
   },
 }

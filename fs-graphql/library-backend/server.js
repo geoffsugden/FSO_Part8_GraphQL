@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 const resolvers = require('./resolvers')
 const typeDefs = require('./schema')
-const User = require('./models/User')
+const User = require('./models/user')
 
 getUserFromAuthHeader = async (auth) => {
   const bearerPrefix = 'Bearer '
@@ -34,7 +34,7 @@ const startServer = (port) => {
       return { currentUser }
     },
   }).then(({ url }) => {
-    console.log(`Server ready at ${url}`)
+    console.log(`Server ready`)
   })
 }
 module.exports = startServer
