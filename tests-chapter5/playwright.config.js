@@ -20,10 +20,15 @@ module.exports = defineConfig({
   ],
   webServer: [
     {
+      name: 'Backend',
       command: 'node setup/start-test-backend.js',
       url: 'http://localhost:4000',
       timeout: 120000,
       reuseExistingServer: false,
+      stdout: 'pipe',
+      env: {
+        ...process.env,
+        MONGOMS_DEBUG: '1',
     },
     {
       command: 'npm run dev',
