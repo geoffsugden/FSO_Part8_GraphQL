@@ -29,6 +29,7 @@ module.exports = defineConfig({
       env: {
         ...process.env,
         MONGOMS_DEBUG: '1',
+      }
     },
     {
       command: 'npm run dev',
