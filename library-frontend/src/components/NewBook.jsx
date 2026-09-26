@@ -10,7 +10,6 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [addBook, { loading }] = useMutation(ADD_BOOK, {
-    onCompleted: props.onCreatingBookChange(false),
     refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
   })
 

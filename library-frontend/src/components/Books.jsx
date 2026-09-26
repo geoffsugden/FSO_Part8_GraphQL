@@ -14,14 +14,9 @@ const Books = (props) => {
     setGenreFilter(favoriteGenre)
   }, [favoriteGenre])
 
-  const handleGenreChange = async (genre) => {
-    console.log('3: genre clicked', genre)
+  const handleGenreChange = (genre) => {
     setGenreFilter(genre)
-    const gResult = await refetch({ genre })
-    console.log(
-      '4: genre refetch returned',
-      gResult.data.filteredBooks.map((book) => book.title),
-    )
+    refetch({ genre })
   }
 
   if (!props.show) {
