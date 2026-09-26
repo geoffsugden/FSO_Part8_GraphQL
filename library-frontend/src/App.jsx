@@ -9,24 +9,37 @@ import { CURRENT_USER } from './queries'
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(localStorage.getItem('library-user-token'))
-  const curUser = useQuery(CURRENT_USER)
+  const [isCreatingBook, setIsCreatingBook] = useState(false)
+  const currentUser = useQuery(CURRENT_USER, {
+    skip: !token,
+  })
+
+  const handleCreatingBookChange = (creatingBook) => {
+    setIsCreatingBook(creatingBook)
+  }
 
   const handleLogin = (token) => {
     setToken(token)
     setPage('authors')
   }
+
   const handleLogout = () => {
     localStorage.removeItem('library-user-token')
     setToken('')
   }
-
   return (
     <div>
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
+        <button disabled={isCreatingBook} onClick={() => setPage('books')}>
+          books
+        </button>
         {token && <button onClick={() => setPage('add')}>add book</button>}
-        {token && <button onClick={() => setPage('recommend')}>recommend</button>}
+        {token && (
+          <button disabled={isCreatingBook} onClick={() => setPage('recommend')}>
+            recommend
+          </button>
+        )}
         {!token && <button onClick={() => setPage('login')}>login</button>}
         {token && <button onClick={() => handleLogout()}>logout</button>}
       </div>
@@ -35,9 +48,9 @@ const App = () => {
 
       <Books show={page === 'books'} />
 
-      <NewBook show={page === 'add'} />
+      <NewBook show={page === 'add'} onCreatingBookChange={handleCreatingBookChange} />
 
-      <Books show={page === 'recommend'} curUser={curUser} />
+      <Books show={page === 'recommend'} currentUser={currentUser} />
 
       <LoginForm show={page === 'login'} handleLogin={handleLogin} />
     </div>

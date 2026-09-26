@@ -8,15 +8,20 @@ const Books = (props) => {
     variables: { genre: genreFilter },
   })
 
-  const favoriteGenre = props.curUser?.data?.me?.favoriteGenre
+  const favoriteGenre = props.currentUser?.data?.me?.favoriteGenre
 
   useEffect(() => {
     setGenreFilter(favoriteGenre)
   }, [favoriteGenre])
 
-  const handleGenreChange = (genre) => {
+  const handleGenreChange = async (genre) => {
+    console.log('3: genre clicked', genre)
     setGenreFilter(genre)
-    refetch({ genre: genreFilter })
+    const gResult = await refetch({ genre })
+    console.log(
+      '4: genre refetch returned',
+      gResult.data.filteredBooks.map((book) => book.title),
+    )
   }
 
   if (!props.show) {
@@ -30,21 +35,25 @@ const Books = (props) => {
 
   const genres = new Set(data.allGenres.flatMap((book) => book.genres))
 
-  const inGenre = genreFilter && !props.curUser
-  const recommend = genreFilter && props.curUser
+  const inGenre = genreFilter && !favoriteGenre
+  const recommend = genreFilter && favoriteGenre
 
   return (
     <div>
-      <h2>books</h2>
-
+      {!favoriteGenre && <h2>books</h2>}
       {inGenre && (
         <div>
-          in genre <strong>{genreFilter}</strong>
+          <div>
+            in genre <strong>{genreFilter}</strong>
+          </div>
         </div>
       )}
       {recommend && (
         <div>
-          books in your favorite genre <strong>{genreFilter}</strong>
+          <h2>recommendations</h2>
+          <div>
+            books in your favorite genre <strong>{genreFilter}</strong>
+          </div>
         </div>
       )}
       <table>
@@ -63,16 +72,16 @@ const Books = (props) => {
           ))}
         </tbody>
       </table>
-      {!props.curUser && (
+      {!props.currentUser && (
         <div>
           <h2>Genres</h2>
-          <button onClick={() => handleGenreChange('')}>show all</button>
           <div>
             {[...genres].map((genre) => (
               <button key={genre} onClick={() => handleGenreChange(genre)}>
                 {genre}
               </button>
             ))}
+            <button onClick={() => handleGenreChange('')}>all genres</button>
           </div>
         </div>
       )}

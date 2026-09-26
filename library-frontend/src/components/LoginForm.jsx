@@ -5,6 +5,7 @@ import { LOGIN } from '../queries'
 const LoginForm = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [loginErrorMessage, setLoginErrorMessage] = useState('')
 
   const [login] = useMutation(LOGIN, {
     onCompleted: (data) => {
@@ -15,6 +16,8 @@ const LoginForm = (props) => {
     },
     onError: (error) => {
       console.log('Error in login', error.message)
+      setLoginErrorMessage('login failed')
+      setTimeout(() => setLoginErrorMessage(''), 5_000)
     },
   })
 
@@ -28,17 +31,27 @@ const LoginForm = (props) => {
   }
 
   return (
-    <form onSubmit={loginHandler}>
-      <div>
-        name
-        <input value={username} onChange={({ target }) => setUsername(target.value)} />
-      </div>
-      <div>
-        password
-        <input value={password} type='password' onChange={({ target }) => setPassword(target.value)} />
-      </div>
-      <button type='submit'>login</button>
-    </form>
+    <div>
+      {loginErrorMessage && <div>{loginErrorMessage}</div>}
+      <form onSubmit={loginHandler}>
+        <div>
+          <label htmlFor='username'>username</label>
+          <input id='username' value={username} onChange={({ target }) => setUsername(target.value)} />
+        </div>
+        <div>
+          <label htmlFor='password'>
+            password
+            <input
+              id='password'
+              value={password}
+              type='password'
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </label>
+        </div>
+        <button type='submit'>login</button>
+      </form>
+    </div>
   )
 }
 export default LoginForm

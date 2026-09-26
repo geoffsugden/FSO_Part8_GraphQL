@@ -9,5 +9,8 @@
     "@playwright/test": "^1.52.0",
     "baseline-browser-mapping": "^2.10.20",
     "mongodb-memory-server": "^10.4.0"
+  },
+  "allowScripts": {
+    "mongodb-memory-server@10.4.3": true
   }
 }
