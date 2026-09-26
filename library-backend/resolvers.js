@@ -145,7 +145,7 @@ const resolvers = {
       }
 
       return {
-        value: `Bearer ${jwt.sign(userForToken, process.env.JWT_SECRET)}`,
+        value: `${jwt.sign(userForToken, process.env.JWT_SECRET)}`,
       }
     },
     _resetDatabase: async () => {
