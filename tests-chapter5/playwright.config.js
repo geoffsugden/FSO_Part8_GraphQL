@@ -22,14 +22,14 @@ module.exports = defineConfig({
     {
       command: 'node setup/start-test-backend.js',
       url: 'http://localhost:4000',
-      timeout: 30000,
+      timeout: 120000,
       reuseExistingServer: false,
     },
     {
       command: 'npm run dev',
       cwd: '../library-frontend',
       url: 'http://localhost:5173',
-      timeout: 30000,
+      timeout: 120000,
       reuseExistingServer: false,
     },
   ],
